@@ -2,11 +2,17 @@ import { Request, response, Response} from 'express'
 import { database } from '../db/database';
 import { User } from '../models/user.model';
 export class UserController {
-    login(request: Request, response: Response) {
-     const {email, pass } = request.body;
 
-     const user = database.find((user) => user.email === email) as User;
+    login(request: Request, response: Response) {
+        const {email, pass } = request.body;
+        const user = database.find((user) => user.email === email) as User;
+
+        if(pass === user.pass)
+            return response.status(202).json({id: user.id});
+
+        return response.status(403).json({msg:'Senha incorreta'});
     }
+
     create(request: Request, response: Response) {
         const {name, email, pass} = request.body;
         const newUser = new User(name, email, pass);
@@ -15,7 +21,7 @@ export class UserController {
         if(!name)   
             return response.status(403).send('Não foi informado nome de usuário');
         
-        return response.status(200).json(
+        return response.status(201).json(
             {
                 msg:'Usuário criado com sucesso',
                 id: newUser.id
@@ -72,6 +78,5 @@ export class UserController {
         user.update(name, email);
 
         return response.json(user?.toJson());
-
     }
 }
