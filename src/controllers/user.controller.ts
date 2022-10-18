@@ -6,8 +6,16 @@ export class UserController {
         const {name, email, pass} = request.body;
         const newUser = new User(name, email, pass);
         database.push(newUser);
+
+        if(!name)   
+            return response.status(403).send('Não foi informado nome de usuário');
         
-        return response.status(200).send('Usuário criado com sucesso');
+        return response.status(200).json(
+            {
+                msg:'Usuário criado com sucesso',
+                id: newUser.id
+            }
+        );
     };
 
     getById(request: Request, response: Response) {

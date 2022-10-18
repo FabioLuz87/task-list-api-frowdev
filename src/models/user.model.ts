@@ -20,9 +20,23 @@ export class User{
         return this._id;
     }
 
+    get tasks(): Task[] {
+        return this._tasks;
+    }
+
     update(name: string, email: string) {
         this._name = name;
         this._email = email;
+    }
+
+    setTasks (task: Task) {
+        this._tasks.push(task)
+    }
+
+    editTasks(task: Task){
+        const currTask = this._tasks.find(t => t.id === task.id) as Task;
+
+        currTask.updateTasks(task)
     }
 
     toJson(){

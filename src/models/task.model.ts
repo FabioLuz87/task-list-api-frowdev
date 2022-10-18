@@ -14,4 +14,25 @@ export class Task{
     get id() {
         return this._id;
     }
+
+    get description() {
+        return this._description;
+    }
+
+    get detail() {
+        return this._detail;
+    }
+
+    updateTasks(task: Task){
+        this._description = task.description,
+        this._detail = task.detail
+    }
+
+    toJson() {
+        return {
+            id: this._id,
+            description: this._description,
+            detail: this._detail,
+        };
+    }
 }
