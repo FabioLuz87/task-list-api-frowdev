@@ -4,6 +4,7 @@ import { UserController } from "./controllers/user.controller";
 
 export default (app: Express) => {
     app.get('/', (request, response) => response.send('OK'));
+    app.post('login', new UserController().login)
     app.get('/users', new UserController().getAll);
     app.get('/user/:userId', new UserController().getById);
     app.post('/user', new UserController().create);
@@ -17,5 +18,9 @@ export default (app: Express) => {
     app.put(
         '/users/:userId/tasks/:taskId',
         new TaskController().update
+    );
+    app.delete(
+        '/users/:userId/tasks/:taskId',
+        new TaskController().remove
     );
 };
