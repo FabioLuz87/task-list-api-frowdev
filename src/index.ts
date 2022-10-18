@@ -9,4 +9,4 @@ app.use(cors());
 routes(app);
 
 
-app.listen(8080, () => console.log('server start'));
+app.listen(process.env.PORT || 8080, () => console.log('server start'));
