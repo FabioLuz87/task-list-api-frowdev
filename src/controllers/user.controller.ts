@@ -2,6 +2,11 @@ import { Request, response, Response} from 'express'
 import { database } from '../db/database';
 import { User } from '../models/user.model';
 export class UserController {
+    login(request: Request, response: Response) {
+     const {email, pass } = request.body;
+
+     const user = database.find((user) => user.email === email) as User;
+    }
     create(request: Request, response: Response) {
         const {name, email, pass} = request.body;
         const newUser = new User(name, email, pass);

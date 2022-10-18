@@ -28,14 +28,22 @@ export class TaskController {
 
   }
 
+  remove(request: Request, response: Response) {
+    const {userId, taskId} = request.params;
+    const user = database.find(u => u.id === userId) as User;
+    const index = user.tasks.findIndex(t => t.id === taskId) ;
+
+    user?.deleteTask(index);
+    
+    return response.json({msg: "transaction deleted"});
+  }
+
   update(request: Request, response: Response) {
     const {userId, taskId} = request.params;    
     const {description, detail} = request.body;
     const user = database.find(u => u.id === userId) as User;
     const index = user.tasks.find(t => t.id === taskId) as Task;
-    const t = {id: taskId, description, detail} as Task;
-    console.log('>>>>> ',t);
-    
+    const t = {id: taskId, description, detail} as Task;   
 
     user?.editTasks(t);
     

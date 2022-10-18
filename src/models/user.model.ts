@@ -20,6 +20,15 @@ export class User{
         return this._id;
     }
 
+    get email(): string {
+        return this._email
+    }
+
+    get pass(): string {
+        return this._pass;
+    }
+
+
     get tasks(): Task[] {
         return this._tasks;
     }
@@ -29,7 +38,7 @@ export class User{
         this._email = email;
     }
 
-    setTasks (task: Task) {
+    setTasks (task: Task) {        
         this._tasks.push(task)
     }
 
@@ -37,6 +46,10 @@ export class User{
         const currTask = this._tasks.find(t => t.id === task.id) as Task;
 
         currTask.updateTasks(task)
+    }
+
+    deleteTask(index: number) {
+        this._tasks.splice(index, 1);
     }
 
     toJson(){
