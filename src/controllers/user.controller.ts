@@ -5,6 +5,8 @@ export class UserController {
 
     login(request: Request, response: Response) {
         const {email, pass } = request.body;
+
+        
         const user = database.find((user) => user.email === email) as User;
 
         if(pass === user.pass)
@@ -24,7 +26,8 @@ export class UserController {
         return response.status(201).json(
             {
                 msg:'Usuário criado com sucesso',
-                id: newUser.id
+                id: newUser.id,
+                name: newUser.name
             }
         );
     };
