@@ -1,6 +1,7 @@
 import { Request, response, Response} from 'express'
 import { database } from '../db/database';
 import { User } from '../models/user.model';
+import { UserRepository } from '../repositories/user.repository';
 export class UserController {
 
     login(request: Request, response: Response) {
@@ -15,13 +16,12 @@ export class UserController {
         return response.status(403).json({msg:'Senha incorreta'});
     }
 
-    create(request: Request, response: Response) {
+    async create(request: Request, response: Response) {
         const {name, email, pass} = request.body;
         const newUser = new User(name, email, pass);
-        database.push(newUser);
-
-        if(!name)   
-            return response.status(403).send('Não foi informado nome de usuário');
+        
+        const repository = new UserRepository();
+        await repository.saveUser(newUser);
         
         return response.status(201).json(
             {

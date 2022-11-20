@@ -9,7 +9,6 @@ export default (app: Express) => {
     app.post('/login',
         new UserMiddleware().verifyUserLogin,
         new UserController().login,
-
     )
 
     app.get('/users', new UserController().getAll);
