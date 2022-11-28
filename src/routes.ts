@@ -11,10 +11,13 @@ export default (app: Express) => {
         new UserController().login,
     )
 
+    //ok
     app.get('/users', new UserController().getAll);
 
+    //ok
     app.get('/user/:userId', new UserController().getById);
 
+    //ok
     app.post(
         '/user', 
         new UserMiddleware().validateUserBody,

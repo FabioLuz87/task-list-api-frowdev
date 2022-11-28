@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { TaskEntity } from "./task.entity";
 
 @Entity({name: "users"})
 export class UserEntity {
@@ -21,4 +22,6 @@ export class UserEntity {
     @Column({name: 'updated_at'})
     updatedAt!: string;
 
+    @OneToMany(() => TaskEntity, (entity) => entity.userEntity)
+    assessmentsEntities?: TaskEntity[];
 }

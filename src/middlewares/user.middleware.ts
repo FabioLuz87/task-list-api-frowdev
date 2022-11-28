@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { database } from "../db/database";
 import { User } from "../models/user.model";
+import { UserRepository } from "../repositories/user.repository";
 
 export class UserMiddleware {
 
@@ -8,21 +9,22 @@ export class UserMiddleware {
         const {name, email, pass} = request.body;
 
         if(!name) 
-            return response.status(400).json({err: 'Nome de usuário de não informado'});
+            return response.status(400).json({msg: 'Nome de usuário de não informado'});
         if(!email) 
-            return response.status(400).json({err: 'Email não informação'});
+            return response.status(400).json({msg: 'Email não informação'});
         if(!pass) 
-            return response.status(400).json({err: 'Senha não informada'});
+            return response.status(400).json({msg: 'Senha não informada'});
     
         return next();
     }
 
-    verifyUserLogin(request: Request, response: Response, next: NextFunction) {
+    async verifyUserLogin(request: Request , response: Response, next: NextFunction) {
         const { email } = request.body;
-        const user = database.find((user) => user.email === email) as User;
 
-        if(!user) 
-            return response.status(404).json({err: 'Usuário não encontrado'});
+        const repository = new UserRepository();
+        const user = await repository.findUserByEmail(email);
+
+        if(!user) return response.status(404).json({msg: 'Usuário não encontrado'});
 
         next();
     }

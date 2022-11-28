@@ -4,11 +4,29 @@ export class Task{
     private _id: string;
     private _description: string;
     private _detail: string
+    private _userId: string;
+    private _isItArchived: boolean
 
-    constructor( description: string, detail: string) {
+    constructor( description: string, detail: string, userId: string) {
         this._id = crypto.randomUUID();
         this._description = description;
         this._detail = detail;
+        this._userId = userId;
+        this._isItArchived = false;
+    }
+
+    static create(
+        id: string,
+        description: string,
+        detail: string,
+        userId: string,
+        isItArchived: boolean,
+        ): Task {
+        const task = new Task(description, detail, userId)
+        task._id = id;
+        task._isItArchived = isItArchived;
+
+        return task;
     }
 
     get id() {
@@ -23,9 +41,17 @@ export class Task{
         return this._detail;
     }
 
-    updateTasks(task: Task){
-        this._description = task.description,
-        this._detail = task.detail
+    get userId() {
+        return this._userId;
+    }
+
+    get isItArchived() {
+        return this._isItArchived;
+    }
+
+    update(description: string, detail: string){
+        this._description = description,
+        this._detail = detail
     }
 
     toJson() {

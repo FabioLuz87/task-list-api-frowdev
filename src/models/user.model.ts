@@ -6,14 +6,27 @@ export class User{
     private _name: string;
     private _email: string;
     private _pass: string;
-    private _tasks: Task[];
 
     constructor(name: string, email: string, pass: string) {
         this._id = crypto.randomUUID();
         this._name = name;
         this._email = email;
-        this._pass = pass;
-        this._tasks = [];        
+        this._pass = pass;        
+    }
+
+    static create(
+        id: string,
+        name: string,
+        email: string,
+        pass: string,
+        ): User {
+        const user = new User(name, email, pass);
+        user._id = id;
+        user._name = name;
+        user._email = email;
+        user._pass = pass
+        
+        return user;
     }
 
     get id(): string {
@@ -32,32 +45,13 @@ export class User{
         return this._pass;
     }
 
-
-    get tasks(): Task[] {
-        return this._tasks;
-    }
-
     update(name: string, email: string) {
         this._name = name;
         this._email = email;
     }
 
-    setTasks (task: Task) {        
-        this._tasks.push(task)
-    }
-
-    editTasks(task: Task){
-        const currTask = this._tasks.find(t => t.id === task.id) as Task;
-
-        currTask.updateTasks(task)
-    }
-
-    deleteTask(index: number) {
-        this._tasks.splice(index, 1);
-    }
-
-    toJson(){
-        return{
+    toJson() {
+        return {
             id: this._id,
             name: this._name,
             email: this._email,

@@ -4,14 +4,14 @@ import { User } from '../models/user.model';
 import { UserRepository } from '../repositories/user.repository';
 export class UserController {
 
-    login(request: Request, response: Response) {
+    async login(request: Request, response: Response) {
         const {email, pass } = request.body;
 
-        
-        const user = database.find((user) => user.email === email) as User;
+        const repository = new UserRepository();
+        const user = await repository.findUserByEmail(email);
 
-        if(pass === user.pass)
-            return response.status(202).json({id: user.id});
+        if(pass === user!.pass)
+            return response.status(202).json({ id: user!.id , name: user!.name});
 
         return response.status(403).json({msg:'Senha incorreta'});
     }
@@ -32,22 +32,25 @@ export class UserController {
         );
     };
 
-    getById(request: Request, response: Response) {
+    async getById(request: Request, response: Response) {
         const {userId} = request.params;
-        const user = database.find((user) => user.id === userId) as User;
+        
+        const repository = new UserRepository();
+        const user = await repository.findUserById(userId);
 
-        return response.json(user.toJson());
+        if(!user) return response.status(400).json({error: "Usuário não encontrado"})
+
+        return response.status(200).json(user.toJson());
     };
 
-    getAll(request: Request, response: Response) {
+    async getAll(request: Request, response: Response) {
         const { name, email } = request.query;
 
-        let allUsersFounded = database.map(user => {
-            return user.toJson();
-        });
+        const repository = new UserRepository();
+        let allUsersFounded = await repository.findAllUsers();
 
-        if(allUsersFounded.length === 0)
-           return response.send("Nenhum usuário cadastrado");
+
+        if(allUsersFounded.length === 0) return response.status(404).json({err: "Nenhum usuário cadastrado"});
        
         if(name) {
             allUsersFounded = allUsersFounded.filter(user => {
@@ -61,16 +64,19 @@ export class UserController {
             })
         }
 
-        return response.json(allUsersFounded)
+        if(allUsersFounded.length === 0) return response.status(404).json({err: "Nenhum usuário encontrado"});
+
+        return response.status(200).json(allUsersFounded)
     }
 
     remove(request: Request, response: Response) {
         const {userId} = request.params;
-        const index = database.findIndex(user => user.id === userId);
 
-        database.splice(index, 1);
+        const repository = new UserRepository();
+        repository.remove(userId)
 
-        return response.json({msg: 'user deleted'});
+
+        return response.json({msg: 'Usuário deletado'});
     }
 
     update(request: Request, response: Response) {

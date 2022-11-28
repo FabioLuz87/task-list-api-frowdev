@@ -2,51 +2,51 @@ import { Request, Response } from "express";
 import { database } from "../db/database";
 import { Task } from "../models/task.model";
 import { User } from "../models/user.model";
+import { TaskRepository } from "../repositories/task.repository";
+import { UserRepository } from "../repositories/user.repository";
 
 export class TaskController {
-  create(request: Request, response: Response) {
+  async create(request: Request, response: Response) {
     const {description, detail} = request.body;
     const { userId } = request.params;
-    const user = database.find(u => u.id === userId);
 
-    const newTask = new Task( description, detail);
+    const taskRepository = new TaskRepository();
+    const newTask = new Task( description, detail, userId);
 
-    user?.setTasks(newTask);
-
+    taskRepository.saveTask(newTask);
     return response.json(newTask.toJson());
   }
 
-  getAll(request: Request, response: Response) {
+  async getAll(request: Request, response: Response) {
     const { userId } = request.params;
-    const user = database.find(u => u.id === userId);
 
-    let allTransFounded = user?.tasks.map( task => {
-        return task.toJson();
-    });
-
-    return response.json(allTransFounded);
-
+    const repository = new TaskRepository;
+    const allTasksByUser = await repository.getAll(userId);
+    let tasks = allTasksByUser.map(t => t.toJson())
+  
+    return response.status(200).json(tasks)
   }
 
   remove(request: Request, response: Response) {
-    const {userId, taskId} = request.params;
-    const user = database.find(u => u.id === userId) as User;
-    const index = user.tasks.findIndex(t => t.id === taskId) ;
+    const { taskId } = request.params;
 
-    user?.deleteTask(index);
-    
-    return response.json({msg: "transaction deleted"});
+    const taskRepository = new TaskRepository();
+    taskRepository.delete(taskId)
+
+    return response.json({msg: "Tarefa removida com sucesso"});
   }
 
-  update(request: Request, response: Response) {
-    const {userId, taskId} = request.params;    
+  async update(request: Request, response: Response) {
+    const { taskId } = request.params;    
     const {description, detail} = request.body;
-    const user = database.find(u => u.id === userId) as User;
-    const index = user.tasks.find(t => t.id === taskId) as Task;
-    const t = {id: taskId, description, detail} as Task;   
 
-    user?.editTasks(t);
+    const taskRepository = new TaskRepository();
+    const task = await taskRepository.findTaskById(taskId);
+    if(!task) return response.status(404).json({ err: "Tarefa não encontrada" });
+
+    task.update(description, detail);
+    taskRepository.update(task);
     
-    return response.json({msg: "transaction edited"});
+    return response.status(200).json({msg: "Tarefa editada com sucesso"});
 }
 }
