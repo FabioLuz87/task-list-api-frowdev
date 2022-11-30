@@ -40,6 +40,11 @@ export default (app: Express) => {
         new TaskController().update
     );
 
+    app.patch(
+        '/users/:userId/tasks/:taskId',
+        new TaskController().updateArchived
+    );
+
     app.delete(
         '/users/:userId/tasks/:taskId',
         new TaskController().remove

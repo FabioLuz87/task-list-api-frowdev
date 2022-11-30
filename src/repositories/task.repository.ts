@@ -25,7 +25,7 @@ export class TaskRepository {
 
         const tasksEntities = await manager.find(TaskEntity, {
             where: { userId },
-            order: { updatedAt: 'DESC' }
+            order: { isItArchived: 'ASC', updatedAt: 'DESC' }
         });
         
         return tasksEntities.map(row => {
@@ -75,6 +75,7 @@ export class TaskRepository {
     async delete(id: string) {
         const manager = pgHelper.client.manager;
 
-        manager.delete(TaskEntity, id);
+        await manager.delete(TaskEntity, id);
     }
+
 }

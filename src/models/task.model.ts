@@ -54,11 +54,18 @@ export class Task{
         this._detail = detail
     }
 
+    updateArchived(isItArchived: boolean){
+        console.log(isItArchived);
+        
+        this._isItArchived = isItArchived
+    }
+
     toJson() {
         return {
             id: this._id,
             description: this._description,
             detail: this._detail,
+            isItArchived: this._isItArchived,
         };
     }
 }

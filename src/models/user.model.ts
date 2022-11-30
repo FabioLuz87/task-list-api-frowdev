@@ -45,9 +45,12 @@ export class User{
         return this._pass;
     }
 
-    update(name: string, email: string) {
-        this._name = name;
-        this._email = email;
+    update(name?: string, email?: string, pass?: string) {
+        if (name) this._name = name;
+
+        if(email) this._email = email;
+
+        if(pass) this._pass = pass
     }
 
     toJson() {
