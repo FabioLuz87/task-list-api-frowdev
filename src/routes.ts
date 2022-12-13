@@ -1,17 +1,13 @@
 import { Express } from "express";
+import authRoutes from "./app/features/authentication/auth.routes";
 import { TaskController } from "./controllers/task.controller";
 import { UserController } from "./controllers/user.controller";
 import { UserMiddleware } from "./middlewares/user.middleware";
 
 export default (app: Express) => {
     app.get('/', (request, response) => response.send('OK'));
+    app.use(authRoutes())
 
-    app.post('/login',
-        new UserMiddleware().verifyUserLogin,
-        new UserController().login,
-    )
-
-    //ok
     app.get('/users', new UserController().getAll);
 
     //ok

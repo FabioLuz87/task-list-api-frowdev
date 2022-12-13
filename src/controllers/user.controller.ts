@@ -11,10 +11,10 @@ export class UserController {
         const repository = new UserRepository();
         const user = await repository.findUserByEmail(email);
 
-        if(pass === user!.pass)
-            return response.status(202).json({ id: user!.id , name: user!.name});
-
-        return response.status(403).json({msg:'Senha incorreta'});
+        if(pass !== user!.pass)
+            throw new Error('Senha incorreta');
+        
+        return { id: user!.id , name: user!.name};
     }
 
     async create(request: Request, response: Response) {
