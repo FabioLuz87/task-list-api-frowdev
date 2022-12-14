@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Task } from "../models/task.model";
-import { User } from "../models/user.model";
-import { TaskRepository } from "../repositories/task.repository";
-import { UserRepository } from "../repositories/user.repository";
+import { Task } from "../../../../models/task.model";
+import { User } from "../../../../models/user.model";
+import { TaskRepository } from "../../../../repositories/task.repository";
+import { UserRepository } from "../../../../repositories/user.repository";
 
 export class TaskController {
   async create(request: Request, response: Response) {
