@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserController } from "../../../../controllers/user.controller";
+import { UserController } from "../../user/controller/user.controller";
 
 export default class AuthController {
     async loginUser(request: Request, response: Response) {
