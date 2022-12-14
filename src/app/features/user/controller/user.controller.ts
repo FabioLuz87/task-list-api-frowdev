@@ -1,7 +1,7 @@
 import { Request, response, Response} from 'express'
-import { User } from '../models/user.model';
-import { TaskRepository } from '../repositories/task.repository';
-import { UserRepository } from '../repositories/user.repository';
+import { User } from '../../../../models/user.model';
+import { TaskRepository } from '../../../../repositories/task.repository';
+import { UserRepository } from '../../../../repositories/user.repository';
 
 export class UserController {
 

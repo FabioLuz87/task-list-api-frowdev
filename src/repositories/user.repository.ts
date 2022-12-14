@@ -1,11 +1,11 @@
-import { UserEntity } from "../database/entities/user.entity";
-import { pgHelper } from "../database/pg-helper";
+import { UserEntity } from "../app/shared/database/entities/user.entity";
+import dataSource from "../main/database/database-connection"
 import { User } from "../models/user.model";
 
 export class UserRepository {
 
     async saveUser(user: User): Promise<void> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
         
         const userEntity = manager.create(UserEntity, {
             id: user.id,
@@ -20,7 +20,7 @@ export class UserRepository {
     }
 
     async findUserById(id: string): Promise<User | undefined> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const userEntity = await manager.findOne(UserEntity, {
             where: { id },
@@ -39,7 +39,7 @@ export class UserRepository {
     }
 
     async findUserByEmail(email: string): Promise<User | undefined> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const userEntity = await manager.findOne(UserEntity, {
             where: { email },
@@ -57,7 +57,7 @@ export class UserRepository {
     }
 
     async findAllUsers(): Promise<User[]> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const usersEntities = await manager.find(UserEntity);
 
@@ -72,7 +72,7 @@ export class UserRepository {
     }
 
     async remove(id: string) {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
         manager.delete(UserEntity, id);
     }
 }
