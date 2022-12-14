@@ -1,8 +1,8 @@
 import { Express } from "express";
-import authRoutes from "./app/features/authentication/auth.routes";
-import { TaskController } from "./controllers/task.controller";
-import { UserController } from "./controllers/user.controller";
-import { UserMiddleware } from "./middlewares/user.middleware";
+import authRoutes from "../../app/features/authentication/auth.routes";
+import { TaskController } from "../../app/features/task/controller/task.controller";
+import { UserController } from "../../app/features/user/controller/user.controller";
+import { UserMiddleware } from "../../middlewares/user.middleware";
 
 export default (app: Express) => {
     app.get('/', (request, response) => response.send('OK'));
