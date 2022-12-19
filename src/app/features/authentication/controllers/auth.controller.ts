@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import { UserController } from "../../user/controller/user.controller";
+import LoginUser from "../usecases/login-user.usecase";
 
 export default class AuthController {
     async loginUser(request: Request, response: Response) {
         try {
-            const { username, password } = request.body;
+            const { username, pass } = request.body;
 
-            const useCase = new UserController();
+            const useCase = new LoginUser();
 
-            const token = await useCase.login(request, response)
+            const logindata = await useCase.execute({username, pass})
 
-            return response.status(200).json(token);
+            return response.status(200).json(logindata);
         } catch(error: any) {
             return response.status(400).json({ error: error.message, stack: error });
         }
