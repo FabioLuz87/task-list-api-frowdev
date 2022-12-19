@@ -1,21 +1,9 @@
 import { Request, response, Response} from 'express'
 import { User } from '../../../../models/user.model';
 import { TaskRepository } from '../../../../repositories/task.repository';
-import { UserRepository } from '../../../../repositories/user.repository';
+import { UserRepository } from '../repositories/user.repository';
 
 export class UserController {
-
-    async login(request: Request, response: Response) {
-        const {email, pass } = request.body;
-
-        const repository = new UserRepository();
-        const user = await repository.findUserByEmail(email);
-
-        if(pass !== user!.pass)
-            throw new Error('Senha incorreta');
-        
-        return { id: user!.id , name: user!.name};
-    }
 
     async create(request: Request, response: Response) {
         const {name, email, pass} = request.body;

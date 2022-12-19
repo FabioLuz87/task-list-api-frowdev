@@ -1,28 +1,14 @@
 import { Express } from "express";
 import authRoutes from "../../app/features/authentication/auth.routes";
+import userRoutes from "../../app/features/user/user.routes";
 import { TaskController } from "../../app/features/task/controller/task.controller";
 import { UserController } from "../../app/features/user/controller/user.controller";
-import { UserMiddleware } from "../../middlewares/user.middleware";
+import { UserBodyValidator } from "../../app/features/user/validators/user-body.validator";
 
 export default (app: Express) => {
     app.get('/', (request, response) => response.send('OK'));
     app.use(authRoutes())
-
-    app.get('/users', new UserController().getAll);
-
-    //ok
-    app.get('/user/:userId', new UserController().getById);
-
-    //ok
-    app.post(
-        '/user', 
-        new UserMiddleware().validateUserBody,
-        new UserController().create
-    );
-
-    app.delete('/user/:userId', new UserController().remove);
-
-    app.put('/user/:userId', new UserController().update);
+    app.use(userRoutes())
 
     app.post(
         '/users/:userId/tasks',
