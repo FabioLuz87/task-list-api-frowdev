@@ -2,28 +2,24 @@ import { Request, response, Response} from 'express'
 import { User } from '../../../../models/user.model';
 import { TaskRepository } from '../../../../repositories/task.repository';
 import { UserRepository } from '../repositories/user.repository';
+import { CreateUser } from '../usecases/create-user.usecase';
 
 export class UserController {
 
     async create(request: Request, response: Response) {
-        const {name, email, pass} = request.body;
-        const newUser = new User(name, email, pass);
-        
-        const repository = new UserRepository();
-        await repository.saveUser(newUser);
-        
-        return response.status(201).json(
-            {
-                msg:'Usuário criado com sucesso',
-                id: newUser.id,
-                name: newUser.name
-            }
-        );
+        try {
+            const usecase = new CreateUser(new UserRepository());
+            const userToCreate = await usecase.execute(request.body)
+            return response.status(201).json(userToCreate)
+        } catch (error: any) {
+            return response.status(500).json({error: error.message, stack: error});
+        }
+
     };
 
     async getById(request: Request, response: Response) {
         const {userId} = request.params;
-        
+
         const repository = new UserRepository();
         const user = await repository.findUserById(userId);
 
@@ -40,7 +36,7 @@ export class UserController {
 
 
         if(allUsersFounded.length === 0) return response.status(404).json({err: "Nenhum usuário cadastrado"});
-       
+
         if(name) {
             allUsersFounded = allUsersFounded.filter(user => {
                 return user.name.toLowerCase().includes(name.toString().toLowerCase())
@@ -64,14 +60,14 @@ export class UserController {
         const taskRepository = new TaskRepository();
         const tasksPerUser = await taskRepository.getAll(userId)
 
-        tasksPerUser.forEach(async task => { 
+        tasksPerUser.forEach(async task => {
             await taskRepository.delete(task.id)
         });
 
         const verifyTasks = await taskRepository.getAll(userId)
         if(verifyTasks.length === 0) {
             const userRepository = new UserRepository();
-            await userRepository.remove(userId)    
+            await userRepository.remove(userId)
         } else {
             return response.status(226).json({msg: 'Problemas de deleção de usuário'});
         }
@@ -82,7 +78,7 @@ export class UserController {
     async update(request: Request, response: Response) {
         const {userId} = request.params;
         const {name, email, pass} = request.body;
-      
+
         const repository = new UserRepository();
         const user: User | undefined = await repository.findUserById(userId);
 

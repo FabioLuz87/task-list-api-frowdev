@@ -6,9 +6,9 @@ import { UserController } from "../../app/features/user/controller/user.controll
 import { UserBodyValidator } from "../../app/features/user/validators/user-body.validator";
 
 export default (app: Express) => {
-    app.get('/', (request, response) => response.send('OK'));
-    app.use(authRoutes())
-    app.use(userRoutes())
+    app.get('/', (request, response) => response.status(200).json({ message: "api running"}));
+    app.use(authRoutes());
+    app.use(userRoutes());
 
     app.post(
         '/users/:userId/tasks',

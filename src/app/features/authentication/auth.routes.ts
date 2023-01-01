@@ -6,13 +6,11 @@ import LoginUserValidator from "./validators/login-user.validator";
 export default () => {   
   const router = Router();
 
-  const authController = new AuthController();
-
   router.post(
     "/login",
     new LoginUserValidator().validate,
     new ExistUserValidator().validate,
-    authController.loginUser
+    new AuthController().loginUser
   );
 
   return router;

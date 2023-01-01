@@ -4,7 +4,7 @@ import { UserRepository } from "../repositories/user.repository";
 export class UserBodyValidator {
 
     validateUserBody(request: Request, response: Response, next: NextFunction){
-        const {name, email, pass} = request.body;
+        const {name, email, pass} = request.body;       
 
         if(!name) 
             return response.status(400).json({msg: 'Nome de usuário de não informado'});

@@ -4,6 +4,16 @@ import { User } from "../../../../models/user.model";
 
 export class UserRepository {
 
+    async verifyUserExistsByEmail(email: string): Promise<boolean> {
+        const manager = dataSource.manager;
+
+        const user = await manager.findOne(UserEntity,{
+            where: {email}
+        });
+
+        return !!user;
+    }
+
     async saveUser(user: User): Promise<void> {
         const manager = dataSource.manager;
         
