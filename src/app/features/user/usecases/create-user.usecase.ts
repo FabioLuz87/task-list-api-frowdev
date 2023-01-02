@@ -2,7 +2,7 @@ import { User } from "../../../../models/user.model";
 import { RequestData } from "../interfaces/request-data";
 import { UserRepository } from "../repositories/user.repository";
 
-export class CreateUser {
+export class CreateUserUsecase {
     private _repository: UserRepository;
 
     constructor(userRepository: UserRepository) {

@@ -2,13 +2,15 @@ import { Request, response, Response} from 'express'
 import { User } from '../../../../models/user.model';
 import { TaskRepository } from '../../../../repositories/task.repository';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUser } from '../usecases/create-user.usecase';
+import { CreateUserUsecase } from '../usecases/create-user.usecase';
+import { DeleteUserUsecase } from '../usecases/delete-user.usecase';
+import { ListAllUsersUsecase } from '../usecases/listall-user.usecase';
 
 export class UserController {
 
     async create(request: Request, response: Response) {
         try {
-            const usecase = new CreateUser(new UserRepository());
+            const usecase = new CreateUserUsecase(new UserRepository());
             const userToCreate = await usecase.execute(request.body)
             return response.status(201).json(userToCreate)
         } catch (error: any) {
@@ -31,9 +33,8 @@ export class UserController {
     async getAll(request: Request, response: Response) {
         const { name, email } = request.query;
 
-        const repository = new UserRepository();
-        let allUsersFounded = await repository.findAllUsers();
-
+        const usecase = new ListAllUsersUsecase();
+        let allUsersFounded = await usecase.execute();
 
         if(allUsersFounded.length === 0) return response.status(404).json({err: "Nenhum usuário cadastrado"});
 
@@ -57,22 +58,14 @@ export class UserController {
     async remove(request: Request, response: Response) {
         const {userId} = request.params;
 
-        const taskRepository = new TaskRepository();
-        const tasksPerUser = await taskRepository.getAll(userId)
-
-        tasksPerUser.forEach(async task => {
-            await taskRepository.delete(task.id)
-        });
-
-        const verifyTasks = await taskRepository.getAll(userId)
-        if(verifyTasks.length === 0) {
-            const userRepository = new UserRepository();
-            await userRepository.remove(userId)
-        } else {
+        const usecase = new DeleteUserUsecase();
+        
+        try {
+            usecase.execute(userId);
+            return response.status(200).json({msg: 'Usuário deletado e suas mensagens'});
+        } catch (error) { 
             return response.status(226).json({msg: 'Problemas de deleção de usuário'});
-        }
-
-        return response.status(200).json({msg: 'Usuário deletado e suas mensagens'});
+        }     
     }
 
     async update(request: Request, response: Response) {

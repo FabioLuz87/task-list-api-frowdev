@@ -63,8 +63,14 @@ export class UserRepository {
         });        
     }
 
-    async remove(id: string) {
-        const manager = dataSource.manager;
-        manager.delete(UserEntity, id);
+    async remove(id: string): Promise<void> {
+
+        try {
+            const manager = dataSource.manager;
+            manager.delete(UserEntity, id);
+        } catch (error) {
+            throw new Error("Não foi possível deletar o usuários")
+        }
+        
     }
 }
