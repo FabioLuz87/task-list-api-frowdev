@@ -1,6 +1,6 @@
 import { UserEntity } from "../../../shared/database/entities/user.entity";
 import dataSource from "../../../../main/database/database-connection"
-import { User } from "../../../../models/user.model";
+import { User } from "../../../models/user.model";
 
 export class UserRepository {
 

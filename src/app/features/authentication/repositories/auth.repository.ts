@@ -1,4 +1,4 @@
-import { User } from "../../../../models/user.model";
+import { User } from "../../../models/user.model";
 import dataSource  from "../../../../main/database/database-connection";
 import { UserEntity } from "../../../shared/database/entities/user.entity";
 

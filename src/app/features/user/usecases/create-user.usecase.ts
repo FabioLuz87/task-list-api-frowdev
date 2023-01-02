@@ -1,4 +1,4 @@
-import { User } from "../../../../models/user.model";
+import { User } from "../../../models/user.model";
 import { RequestData } from "../interfaces/request-data";
 import { UserRepository } from "../repositories/user.repository";
 

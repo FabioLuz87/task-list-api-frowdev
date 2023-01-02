@@ -1,6 +1,6 @@
 import { TaskEntity } from "../app/shared/database/entities/task.entity";
 import dataSource from "../main/database/database-connection"
-import { Task } from "../models/task.model";
+import { Task } from "../app/models/task.model";
 
 export class TaskRepository {
 

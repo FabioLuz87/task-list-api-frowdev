@@ -1,5 +1,5 @@
 import { Request, response, Response} from 'express'
-import { User } from '../../../../models/user.model';
+import { User } from '../../../models/user.model';
 import { TaskRepository } from '../../../../repositories/task.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserUsecase } from '../usecases/create-user.usecase';
@@ -14,13 +14,15 @@ export class UserController {
             const userToCreate = await usecase.execute(request.body)
             return response.status(201).json(userToCreate)
         } catch (error: any) {
-            return response.status(500).json({error: error.message, stack: error});
+            return response.status(422).json({error: error.message, stack: error});
         }
 
     };
 
     async getById(request: Request, response: Response) {
         const {userId} = request.params;
+
+        
 
         const repository = new UserRepository();
         const user = await repository.findUserById(userId);

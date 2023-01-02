@@ -1,4 +1,4 @@
-import { User } from "../../../../models/user.model";
+import { User } from "../../../models/user.model";
 import { UserRepository } from "../repositories/user.repository";
 
 export class ListAllUsersUsecase {
