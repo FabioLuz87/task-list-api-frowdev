@@ -10,14 +10,12 @@ export class CreateUserUsecase {
     }
 
     async execute({ name, email, pass }: RequestData): Promise<any> {
-        
+
         const isUserExists: boolean = await this._repository.verifyUserExistsByEmail(email);
         if(isUserExists) throw new Error("Já existe um usuário com este username");
 
         const user = new User(name, email, pass);
         await this._repository.saveUser(user);
-
-        console.log(user.toJson())
         return user.toJson();    
     }
 }

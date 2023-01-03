@@ -5,6 +5,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { CreateUserUsecase } from '../usecases/create-user.usecase';
 import { DeleteUserUsecase } from '../usecases/delete-user.usecase';
 import { ListAllUsersUsecase } from '../usecases/listall-user.usecase';
+import { EditUserUsecase } from '../usecases/edit-user.usecase';
 
 export class UserController {
 
@@ -74,14 +75,12 @@ export class UserController {
         const {userId} = request.params;
         const {name, email, pass} = request.body;
 
-        const repository = new UserRepository();
-        const user: User | undefined = await repository.findUserById(userId);
-
-        if(!user) return response.status(404).json({ msg:'Impossível editar usuário'});
-
-        user.update(name, email, pass);
-        repository.saveUser(user)
-
-        return response.status(200).json(user?.toJson());
+        try {
+            const usecase = new EditUserUsecase();
+            const user = await usecase.execute(userId, name, email, pass);
+            return response.status(200).json(user?.toJson());
+        } catch (error: any) {
+            return response.status(422).json({ error: error.message, stack: error });
+        }
     }
 }
