@@ -1,4 +1,4 @@
 interface BodyLogin {
-    username: string;
+    email: string;
     pass: string;
   }
