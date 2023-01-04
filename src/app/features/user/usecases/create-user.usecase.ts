@@ -1,5 +1,5 @@
 import { User } from "../../../models/user.model";
-import { RequestData } from "../interfaces/request-data";
+import { RequestData } from "../../../shared/interfaces/request-data";
 import { UserRepository } from "../repositories/user.repository";
 
 export class CreateUserUsecase {
