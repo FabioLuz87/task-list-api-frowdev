@@ -13,12 +13,15 @@ const entities = path.join(
     "*.ts"
 );
 
+const migrations = path.join(__dirname, "..", "database", "migrations", "*.ts");
+
 export const configTypeorm: DataSourceOptions = {
     type: "postgres",
     url: envsConfig.DATABASE_URL,
     synchronize: false, 
     logging: false,
     entities: [entities],
+    migrations: [migrations],
     ssl: {
         rejectUnauthorized: false
     },

@@ -1,4 +1,4 @@
-import { TaskRepository } from "../../../../repositories/task.repository";
+import { TaskRepository } from "./repositories/task.repository";
 import { Task } from "../../../models/task.model";
 
 export class ArchivedTaskUsecase{
