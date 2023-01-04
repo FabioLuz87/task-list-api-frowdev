@@ -1,11 +1,21 @@
-import { UserEntity } from "../database/entities/user.entity";
-import { pgHelper } from "../database/pg-helper";
-import { User } from "../models/user.model";
+import { UserEntity } from "../../../shared/database/entities/user.entity";
+import dataSource from "../../../../main/database/database-connection"
+import { User } from "../../../models/user.model";
 
 export class UserRepository {
 
+    async verifyUserExistsByEmail(email: string): Promise<boolean> {
+        const manager = dataSource.manager;
+
+        const user = await manager.findOne(UserEntity,{
+            where: {email}
+        });
+
+        return !!user;
+    }
+
     async saveUser(user: User): Promise<void> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
         
         const userEntity = manager.create(UserEntity, {
             id: user.id,
@@ -20,7 +30,7 @@ export class UserRepository {
     }
 
     async findUserById(id: string): Promise<User | undefined> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const userEntity = await manager.findOne(UserEntity, {
             where: { id },
@@ -38,26 +48,8 @@ export class UserRepository {
         return user;
     }
 
-    async findUserByEmail(email: string): Promise<User | undefined> {
-        const manager = pgHelper.client.manager;
-
-        const userEntity = await manager.findOne(UserEntity, {
-            where: { email },
-        })
-
-        if(!userEntity) return undefined;
-
-        const user = User.create(
-            userEntity.id,
-            userEntity.name,
-            userEntity.email,
-            userEntity.pass
-        )
-        return user;
-    }
-
     async findAllUsers(): Promise<User[]> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const usersEntities = await manager.find(UserEntity);
 
@@ -71,8 +63,14 @@ export class UserRepository {
         });        
     }
 
-    async remove(id: string) {
-        const manager = pgHelper.client.manager;
-        manager.delete(UserEntity, id);
+    async remove(id: string): Promise<void> {
+
+        try {
+            const manager = dataSource.manager;
+            manager.delete(UserEntity, id);
+        } catch (error) {
+            throw new Error("Não foi possível deletar o usuários")
+        }
+        
     }
 }

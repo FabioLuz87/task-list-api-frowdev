@@ -1,11 +1,11 @@
-import { TaskEntity } from "../database/entities/task.entity";
-import { pgHelper } from "../database/pg-helper";
-import { Task } from "../models/task.model";
+import { TaskEntity } from "../../../../shared/database/entities/task.entity";
+import dataSource from "../../../../../main/database/database-connection"
+import { Task } from "../../../../models/task.model";
 
 export class TaskRepository {
 
     async saveTask(task: Task): Promise<void> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
         
         const taskEntity = manager.create(TaskEntity, {
             id: task.id,
@@ -21,7 +21,7 @@ export class TaskRepository {
     }
 
     async getAll(userId: string): Promise<Task[]> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const tasksEntities = await manager.find(TaskEntity, {
             where: { userId },
@@ -40,7 +40,7 @@ export class TaskRepository {
     }
 
     async findTaskById(id: string) {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         const taskEntity = await manager.findOne(TaskEntity, {
             where: { id }
@@ -58,7 +58,7 @@ export class TaskRepository {
     }
 
     async update(task: Task): Promise<void> {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
         
         const taskEntity = manager.create(TaskEntity, {
             id: task.id,
@@ -73,7 +73,7 @@ export class TaskRepository {
     }
 
     async delete(id: string) {
-        const manager = pgHelper.client.manager;
+        const manager = dataSource.manager;
 
         await manager.delete(TaskEntity, id);
     }
