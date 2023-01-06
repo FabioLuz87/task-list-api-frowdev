@@ -39,6 +39,7 @@ export class CreateTableTasks1672965127829 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropTable("tasks", true, true, true);
     }
 
 }
