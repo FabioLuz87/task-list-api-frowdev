@@ -6,6 +6,7 @@ export class UserRepository {
 
     async verifyUserExistsByEmail(email: string): Promise<boolean> {
         const manager = dataSource.manager;
+        
 
         const user = await manager.findOne(UserEntity,{
             where: {email}

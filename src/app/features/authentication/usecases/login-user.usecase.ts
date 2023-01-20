@@ -1,12 +1,14 @@
-import { Response } from "express";
-import { UserRepository } from "../../user/repositories/user.repository";
 import { AuthRepository } from "../repositories/auth.repository";
 
-export default class LoginUser{
-    async execute({email, pass}: BodyLogin, ): Promise<any> {
-        const authRepository = new AuthRepository();
-        const user = await authRepository.findUserByEmail(email); 
+export class LoginUser{
+    private _authRepository: AuthRepository;
 
+    constructor(authRepository: AuthRepository){
+        this._authRepository = authRepository;
+    } 
+
+    async execute({email, pass}: BodyLogin): Promise<any> {
+        const user = await this._authRepository.findUserByEmail(email); 
 
         if(pass !== user?.pass) throw new Error("Senha incorreta");
         return user;        
