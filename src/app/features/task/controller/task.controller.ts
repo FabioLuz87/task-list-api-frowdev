@@ -5,6 +5,8 @@ import { ListaAllTasksUsecase } from "../usecases/listaall-tasks.usecase";
 import { RemoveTaskUsecase } from "../usecases/remove-task.usecase";
 import { EditTaskUsecase } from "../usecases/edit-task.usecase";
 import { ArchivedTaskUsecase } from "../usecases/archived-task.usecase";
+import { TaskRepository } from "../repositories/task.repository";
+import { CacheRepository } from "../../../shared/database/repositories/cache.respository";
 
 export class TaskController {
   async create(request: Request, response: Response) {
@@ -13,7 +15,7 @@ export class TaskController {
 
     try {
       const newTask = new Task( description, detail, userId);
-      const usecase = new CreateTaskUsecase();
+      const usecase = new CreateTaskUsecase(new TaskRepository(), new CacheRepository());
       await usecase.execute(newTask)
       return response.status(201).json(newTask.toJson());
     } catch (error: any) {
