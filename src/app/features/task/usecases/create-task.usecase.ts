@@ -1,15 +1,11 @@
-import { TaskRepository } from "./repositories/task.repository";
+import { TaskRepository } from "../repositories/task.repository";
 import { Task } from "../../../models/task.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.respository";
 
 export class CreateTaskUsecase{
-    private _repository: TaskRepository;
-    private _chacheRepository: CacheRepository;
+    
 
-    constructor() {
-        this._repository = new TaskRepository();
-        this._chacheRepository = new CacheRepository();
-    }
+    constructor(private _repository: TaskRepository, private _chacheRepository: CacheRepository) {}
 
     async execute(task: Task): Promise<Task | undefined> {
 

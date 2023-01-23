@@ -1,5 +1,5 @@
 import { CacheRepository } from "../../../shared/database/repositories/cache.respository";
-import { TaskRepository } from "./repositories/task.repository";
+import { TaskRepository } from "../repositories/task.repository";
 
 export class RemoveTaskUsecase{
     private _repository: TaskRepository;
