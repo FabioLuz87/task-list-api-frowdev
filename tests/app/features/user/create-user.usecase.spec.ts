@@ -17,6 +17,5 @@ describe('Create user Usecase', () => {
         });
 
         expect(result.name).toBe('any_name');
-
     });
 });

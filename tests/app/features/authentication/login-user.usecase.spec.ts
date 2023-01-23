@@ -19,6 +19,5 @@ describe('Login user Usecase', () => {
         expect(result.id).toBeTruthy();
         expect(result.email).toBe('any_email');
         expect(result.pass).toBe('any_pass');
-
     });
 });
