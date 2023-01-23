@@ -1,4 +1,4 @@
-import { TaskRepository } from "../../task/usecases/repositories/task.repository";
+import { TaskRepository } from "../../task/repositories/task.repository";
 import { UserRepository } from "../repositories/user.repository";
 
 export class DeleteUserUsecase {

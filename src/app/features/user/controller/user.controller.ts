@@ -1,6 +1,6 @@
 import { Request, response, Response} from 'express'
 import { User } from '../../../models/user.model';
-import { TaskRepository } from '../../task/usecases/repositories/task.repository';
+import { TaskRepository } from '../../task/repositories/task.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserUsecase } from '../usecases/create-user.usecase';
 import { DeleteUserUsecase } from '../usecases/delete-user.usecase';
