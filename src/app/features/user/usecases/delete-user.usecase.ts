@@ -2,13 +2,8 @@ import { TaskRepository } from "../../task/repositories/task.repository";
 import { UserRepository } from "../repositories/user.repository";
 
 export class DeleteUserUsecase {
-    private _userRepository: UserRepository;
-    private _taskRepository: TaskRepository;
 
-    constructor() {
-        this._userRepository = new UserRepository();
-        this._taskRepository = new TaskRepository();
-    }
+    constructor(private _userRepository: UserRepository, private _taskRepository: TaskRepository) {}
 
     async execute(id: string): Promise<void> {
 
@@ -22,6 +17,5 @@ export class DeleteUserUsecase {
         }
 
         this._userRepository.remove(id);
-    }
-    
+    }  
 }

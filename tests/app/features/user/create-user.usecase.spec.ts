@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../../src/app/features/user/repositories/user.repository';
-import { CreateUserUsecase } from '../../../../src/app/features/user/usecases/create-user.usecase'
+import { CreateUserUsecase } from '../../../../src/app/features/user/usecases/create-user.usecase';
 
 describe('Create user Usecase', () => {
     test('Deve salvar um user', async () => {

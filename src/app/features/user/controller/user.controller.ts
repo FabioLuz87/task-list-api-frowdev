@@ -36,7 +36,7 @@ export class UserController {
     async getAll(request: Request, response: Response) {
         const { name, email } = request.query;
 
-        const usecase = new ListAllUsersUsecase();
+        const usecase = new ListAllUsersUsecase(new UserRepository());
         let allUsersFounded = await usecase.execute();
 
         if(allUsersFounded.length === 0) return response.status(404).json({err: "Nenhum usuário cadastrado"});
@@ -61,7 +61,7 @@ export class UserController {
     async remove(request: Request, response: Response) {
         const {userId} = request.params;
 
-        const usecase = new DeleteUserUsecase();
+        const usecase = new DeleteUserUsecase(new UserRepository(), new TaskRepository());
         
         try {
             usecase.execute(userId);
