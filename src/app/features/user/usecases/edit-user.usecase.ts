@@ -4,11 +4,7 @@ import { UserRepository } from "../repositories/user.repository";
 
 export class EditUserUsecase {
 
-    private _repository: UserRepository;
-
-    constructor(){
-        this._repository = new UserRepository();
-    }
+    constructor( private _repository: UserRepository) {}
 
     async execute(id: string, name: string, email: string, pass: string): Promise<User> {
         
@@ -21,5 +17,4 @@ export class EditUserUsecase {
         this._repository.saveUser(user);
         return user;
     }
-
 }

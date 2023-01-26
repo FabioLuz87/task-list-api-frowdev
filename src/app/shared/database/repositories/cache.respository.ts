@@ -14,6 +14,6 @@ export class CacheRepository {
     }
 
     public async delete(key: string) {
-        return await this.redis.del(key);
+        await this.redis.del(key);
     }
 }

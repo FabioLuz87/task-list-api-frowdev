@@ -76,7 +76,7 @@ export class UserController {
         const {name, email, pass} = request.body;
 
         try {
-            const usecase = new EditUserUsecase();
+            const usecase = new EditUserUsecase(new UserRepository());
             const user = await usecase.execute(userId, name, email, pass);
             return response.status(200).json(user?.toJson());
         } catch (error: any) {
