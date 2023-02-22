@@ -22,4 +22,23 @@ describe('Delete user Usecase', () => {
         expect(testSpy).toHaveBeenCalledTimes(1);
         expect(testSpy).toHaveBeenCalledWith(userPosOne.id);
     });
+
+    test('Deve deletar as tasks do usuário', async () => {
+        const userRepository = new UserRepository();
+        const taskRepository = new TaskRepository();
+        const sut = new DeleteUserUsecase(userRepository, taskRepository);
+        const userPosOne = new User('any_name', 'any_email', 'any_pass');
+        const task = new Task('any_desc', 'any_detail', userPosOne.id);
+
+        const testSpy = 
+            jest.spyOn(taskRepository, 'getAll').mockResolvedValue([task]) &&
+            jest.spyOn(taskRepository, "delete").mockResolvedValue() &&
+            jest.spyOn(userRepository, 'remove').mockResolvedValue() 
+        ;
+        
+        await sut.execute(userPosOne.id);
+
+        expect(testSpy).toHaveBeenCalledTimes(1);
+        expect(testSpy).toHaveBeenCalledWith(userPosOne.id);
+    });
 });

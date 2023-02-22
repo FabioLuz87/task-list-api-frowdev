@@ -27,8 +27,6 @@ describe.only('Edit User usecase', () => {
         const user = new User('any_name', 'any_email', 'any_pass');
         jest.spyOn(repository, 'findUserById').mockResolvedValue(undefined);
 
-        await expect(() => {
-            sut.execute(user.id, 'new_name', 'new_email', 'new_pass');
-        }).rejects.toThrowError('Impossível editar usuário');
+        await expect(sut.execute(user.id, 'new_name', 'new_email', 'new_pass')).rejects.toThrowError('Impossível editar usuário');
     });
 });

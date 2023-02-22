@@ -18,4 +18,22 @@ describe('Create user Usecase', () => {
 
         expect(result.name).toBe('any_name');
     });
+
+    test('Deve retornar um erro de usuário existente', async () => {
+
+        const repository = new UserRepository();
+        const sut = new CreateUserUsecase(repository);
+
+        jest.spyOn(repository, 'verifyUserExistsByEmail').mockResolvedValue(true);
+        
+
+        await expect(sut.execute({
+            name: 'any_name',
+            email: 'any_pass',
+            pass: 'any_pass'
+        })).rejects.toThrow("Já existe um usuário com este username");
+    });
+
+
+
 });

@@ -11,6 +11,7 @@ export class LoginUser{
         const user = await this._authRepository.findUserByEmail(email); 
 
         if(pass !== user?.pass) throw new Error("Senha incorreta");
+        
         return user;        
     }
 }
