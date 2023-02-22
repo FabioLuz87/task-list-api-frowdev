@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
-import LoginUser from "../usecases/login-user.usecase";
+import { AuthRepository } from "../repositories/auth.repository";
+import { LoginUser } from "../usecases/login-user.usecase";
 
 export default class AuthController {
     async loginUser(request: Request, response: Response) {
         try {
             const { email, pass } = request.body;
 
-            const useCase = new LoginUser();
+            const repository = new AuthRepository;
+            const useCase = new LoginUser(repository);
 
             const logindata = await useCase.execute({email, pass})
 
