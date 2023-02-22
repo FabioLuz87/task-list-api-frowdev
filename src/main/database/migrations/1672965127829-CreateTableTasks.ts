@@ -11,6 +11,7 @@ export class CreateTableTasks1672965127829 implements MigrationInterface {
                     { name: "description", type: "varchar", length: "50", isNullable: false },
                     { name: "detail", type: "varchar", length: "255", isNullable: false },
                     { name: "is_it_archived", type: "boolean", isNullable: false, default: false },
+                    { name: "user_id", type: "uuid", isNullable: false },
                     {
                     name: "created_at",
                     type: "timestamp",
