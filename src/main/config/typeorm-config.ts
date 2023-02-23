@@ -10,7 +10,7 @@ const entities = path.join(
     "shared",
     "database",
     "entities",
-    "*.ts"
+    "*.js"
 );
 
 const migrations = path.join(__dirname, "..", "database", "migrations", "*.ts");

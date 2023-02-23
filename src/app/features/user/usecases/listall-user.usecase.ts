@@ -4,7 +4,6 @@ import { UserRepository } from "../repositories/user.repository";
 
 export class ListAllUsersUsecase {
     
-
     constructor(private _repository: UserRepository) {}
 
     async execute(): Promise<User[]> {
