@@ -2,7 +2,7 @@ import path from "path";
 import { DataSourceOptions } from "typeorm";
 import envsConfig from "../env/envs-config";
 
-const entities = path.join(
+export const entities = path.join(
     __dirname,
     "..",
     "..",
@@ -10,7 +10,7 @@ const entities = path.join(
     "shared",
     "database",
     "entities",
-    "*.js"
+    "*"
 );
 
 const migrations = path.join(__dirname, "..", "database", "migrations", "*.ts");

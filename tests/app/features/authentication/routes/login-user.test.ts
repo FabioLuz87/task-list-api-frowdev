@@ -8,7 +8,7 @@ describe('POST - /login', () => {
         expect(response.status).toBe(400)
     });
 
-    test('Deve retornar um 404 para usuário não encontrado', async () => {
+    // test('Deve retornar um 404 para usuário não encontrado', async () => {
         
-    })
+    // })
 });

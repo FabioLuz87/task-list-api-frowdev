@@ -2,6 +2,7 @@ import app from "./config/app";
 import typeorm from "./database/database-connection";
 import envsConfig from "./env/envs-config";
 import RedisConnection from "./database/redis-connection"
+import path from "path";
 
 const PORT = envsConfig.SERVER_PORT
 
