@@ -54,9 +54,7 @@ export class Task{
         this._detail = detail
     }
 
-    updateArchived(isItArchived: boolean){
-        console.log(isItArchived);
-        
+    updateArchived(isItArchived: boolean){        
         this._isItArchived = isItArchived
     }
 

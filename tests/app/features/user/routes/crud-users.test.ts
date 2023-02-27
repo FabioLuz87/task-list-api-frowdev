@@ -4,14 +4,12 @@ import crypto from 'crypto';
 
 import app from '../../../../../src/main/config/app';
 import typeorm from "../../../../../src/main/database/database-connection";
-import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { UserEntity } from "../../../../../src/app/shared/database/entities/user.entity";
 
 describe("CRUD - users", () => {
     
     beforeAll(async () => {
         await typeorm.initialize();
-
     });
 
     test('Deve retornar um statusCode 400 ao tentar criar um user sem body', async () => {

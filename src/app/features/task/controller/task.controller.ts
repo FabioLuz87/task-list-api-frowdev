@@ -40,7 +40,7 @@ export class TaskController {
     const { taskId } = request.params;
 
     try {
-      const usecase = new RemoveTaskUsecase();
+      const usecase = new RemoveTaskUsecase(new TaskRepository(), new CacheRepository());
       await usecase.execute(taskId);  
       return response.status(200).json({msg: "Tarefa removida com sucesso"});
     } catch (error: any) {

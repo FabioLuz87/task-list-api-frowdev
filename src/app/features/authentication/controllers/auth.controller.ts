@@ -13,7 +13,7 @@ export default class AuthController {
             const logindata = await useCase.execute({email, pass})
 
             return response.status(200).json(logindata);
-        } catch(error: any) {
+        } catch(error: any) {            
             return response.status(400).json({ error: error.message, stack: error });
         }
     }
