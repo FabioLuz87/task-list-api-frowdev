@@ -27,7 +27,7 @@ export class TaskController {
     const { userId } = request.params;
 
     try {
-      const usecase = new ListaAllTasksUsecase();
+      const usecase = new ListaAllTasksUsecase(new TaskRepository(), new CacheRepository());
       const allTasksByUser = await usecase.execute(userId);
       let tasks = allTasksByUser.map(t => t.toJson());
       return response.status(200).json(tasks);
@@ -65,7 +65,7 @@ export class TaskController {
     
     const { taskId } = request.params;  
     try {
-      const usecase = new ArchivedTaskUsecase()
+      const usecase = new ArchivedTaskUsecase(new TaskRepository(), new CacheRepository());
       await usecase.execute(taskId);
       return response.status(200).json({msg: "Tarefa des/arquivada com sucesso"});
     } catch (error: any) {

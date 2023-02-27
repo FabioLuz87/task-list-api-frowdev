@@ -3,13 +3,8 @@ import { Task } from "../../../models/task.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.respository";
 
 export class ListaAllTasksUsecase{
-    private _repository: TaskRepository;
-    private _cacheRepository: CacheRepository;
-
-    constructor() {
-        this._repository = new TaskRepository();
-        this._cacheRepository = new CacheRepository();
-    }
+    
+    constructor(private _repository: TaskRepository, private _cacheRepository: CacheRepository) {}
 
     async execute(userId: string): Promise<Task[]> {
 
